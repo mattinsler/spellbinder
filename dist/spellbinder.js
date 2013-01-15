@@ -3,7 +3,7 @@
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
   (function(exports) {
-    var AttributeWriter, Binder, Binding, ChangeHandler, ElementWriter, Formatter, View, Writer, get_nested_value;
+    var AttributeWriter, Binder, Binding, ChangeHandler, ElementWriter, Formatter, Writer, get_nested_value;
     get_nested_value = function(data, field) {
       var f, _i, _len, _ref;
       _ref = field.split('.');
@@ -29,7 +29,7 @@
           }
           bindings = bindings.map(function(e) {
             var global, obj, _ref2;
-            e = _.str.strip(e);
+            e = e.trim();
             if (e[0] === '@') {
               global = true;
               obj = e.split(':')[0].slice(1);
@@ -371,9 +371,9 @@
           _results = [];
           for (_i = 0, _len = _ref.length; _i < _len; _i++) {
             event_descriptor = _ref[_i];
-            _ref1 = _.str.strip(event_descriptor).split(':'), event = _ref1[0], method = _ref1[1];
-            event = _.str.trim(event);
-            method = _.str.trim(method);
+            _ref1 = event_descriptor.trim().split(':'), event = _ref1[0], method = _ref1[1];
+            event = event.trim();
+            method = method.trim();
             if (!((event != null) && (method != null))) {
               throw new Error('data-event must be formatted like "event_name: view_method_name"');
             }
@@ -453,24 +453,7 @@
         return typeof (_base1 = this.view).after_change === "function" ? _base1.after_change(new_values, old_values) : void 0;
       }
     };
-    View = (function(_super) {
-
-      __extends(View, _super);
-
-      function View() {
-        return View.__super__.constructor.apply(this, arguments);
-      }
-
-      View.prototype.initialize = function() {
-        Spellbinder.initialize(this);
-        return View.__super__.initialize.apply(this, arguments);
-      };
-
-      return View;
-
-    })(Backbone.View);
-    exports.Spellbinder = Binder;
-    return exports.Spellbinder.View = View;
+    return exports.Spellbinder = Binder;
   })(window);
 
 }).call(this);

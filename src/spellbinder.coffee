@@ -31,7 +31,7 @@
         throw new Error('Multiple events require a formatter: ' + b) if bindings.length > 1 and !format?
 
         bindings = bindings.map (e) ->
-          e = _.str.strip(e)
+          e = e.trim()
           if e[0] is '@'
             global = true
             obj = e.split(':')[0].slice(1)
@@ -222,14 +222,13 @@
     render_template: ->
       if @view.template?
         @view.$el.html(@view.template(model: @view.model))
-
-
+    
     render_data_event: ($el) ->
       $el.find('[data-event]').each (idx, el) =>
         for event_descriptor in $(el).data('event').split(';')
-          [event, method] = _.str.strip(event_descriptor).split(':')
-          event = _.str.trim(event)
-          method = _.str.trim(method)
+          [event, method] = event_descriptor.trim().split(':')
+          event = event.trim()
+          method = method.trim()
           throw new Error('data-event must be formatted like "event_name: view_method_name"') unless event? and method?
           throw new Error("[data-event] Method '#{method}' does not exist in view") unless @view[method]?
 
@@ -279,11 +278,5 @@
       @view.after_change?(new_values, old_values)
   }
   
-  class View extends Backbone.View
-    initialize: ->
-      Spellbinder.initialize(@)
-      super
-
   exports.Spellbinder = Binder
-  exports.Spellbinder.View = View
 )(window)
