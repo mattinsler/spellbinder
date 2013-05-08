@@ -29,7 +29,7 @@
           }
           bindings = bindings.map(function(e) {
             var global, obj, _ref2;
-            e = _.str.strip(e);
+            e = e.trim();
             if (e[0] === '@') {
               global = true;
               obj = e.split(':')[0].slice(1);
@@ -249,6 +249,8 @@
             } else {
               return $(el).removeClass(attr);
             }
+          } else if (scope === 'prop') {
+            return $(el).prop(attr, formatted_value);
           }
         } else {
           return $(el).attr(this.attribute, formatted_value);
@@ -371,9 +373,9 @@
           _results = [];
           for (_i = 0, _len = _ref.length; _i < _len; _i++) {
             event_descriptor = _ref[_i];
-            _ref1 = _.str.strip(event_descriptor).split(':'), event = _ref1[0], method = _ref1[1];
-            event = _.str.trim(event);
-            method = _.str.trim(method);
+            _ref1 = event_descriptor.trim().split(':'), event = _ref1[0], method = _ref1[1];
+            event = event.trim();
+            method = method.trim();
             if (!((event != null) && (method != null))) {
               throw new Error('data-event must be formatted like "event_name: view_method_name"');
             }
@@ -428,7 +430,7 @@
       },
       on_change: function(src, opts) {
         var b, bindings, changes, new_values, old_values, _base, _base1, _i, _len;
-        changes = _(opts.changes).keys();
+        changes = _(opts.changes || src.changes).keys();
         bindings = this.bindings.filter(function(b) {
           return b.is_changed(src, changes);
         });

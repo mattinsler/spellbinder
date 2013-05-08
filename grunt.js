@@ -4,6 +4,7 @@ module.exports = function(grunt) {
   
   grunt.initConfig({
     pkg: '<json:package.json>',
+    clean: ['dist'],
     coffee: {
       compile: {
         files: {
@@ -19,5 +20,5 @@ module.exports = function(grunt) {
     }
   });
   
-  grunt.registerTask('default', 'coffee min');
+  grunt.registerTask('default', ['clean', 'coffee', 'min']);
 };
