@@ -115,7 +115,8 @@
             throw new Error('Could not format: [' + __format__ + '] ERROR: ' + e.message)
       else
         @format = (__values__) =>
-          current_views = @bindings.map((b) -> b.view)
+          # all views should be the same
+          current_view = @bindings[0].view
           sources = @bindings.map((b) -> b.bound_object)
           __args__ = @bindings.map((b) -> b.event).join(', ')
           __value_args__ = @bindings.map((b) -> "__values__['#{b.event}']").join(', ')
