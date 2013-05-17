@@ -1,14 +1,13 @@
 {
   "name": "spellbinder",
-  "version": "0.0.0-ignored",
-  "engines": {
-    "node": ">= 0.6.0"
-  },
-  "scripts": {
-    "test": "grunt qunit"
-  },
+  "description": "View only model/view binding for backbone.js",
+  "version": "0.2.0",
+  "license": "MIT",
+  "url": "https://github.com/mattinsler/spellbinder",
+  "keywords": ["backbone.js", "model", "binding"],
+  "author": "Matt Insler <matt.insler@gmail.com>",
   "devDependencies": {
     "grunt": "~0.3.15",
-    "grunt-contrib": "latest"
+    "grunt-contrib": "~0.3.0"
   }
 }

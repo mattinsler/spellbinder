@@ -161,6 +161,8 @@
             $(el).addClass(attr)
           else
             $(el).removeClass(attr)
+        else if scope is 'prop'
+          $(el).prop(attr, formatted_value)
       else
         $(el).attr(@attribute, formatted_value)
 
@@ -266,7 +268,7 @@
       obj.off('change', @on_change, @)
 
     on_change: (src, opts) ->
-      changes = _(opts.changes).keys()
+      changes = _(opts.changes or src.changes).keys()
       bindings = @bindings.filter (b) -> b.is_changed(src, changes)
       return if bindings.length is 0
 
