@@ -2,7 +2,13 @@
 
 View-only model/view binding for backbone.js
 
-Don't write this anymore:
+Wouldn't you rather write this:
+
+```html
+<p data-bind="count; [class:high-value] count > 100; [class:low-value] count < 50"></p>
+```
+
+Rather than this:
 
 ```javascript
 $(function() {
@@ -23,12 +29,6 @@ $(function() {
     }
   });
 });
-```
-
-Write this:
-
-```html
-<p data-bind="count; [class:high-value] count > 100; [class:low-value] count < 50"></p>
 ```
 
 ## Basic Idea
