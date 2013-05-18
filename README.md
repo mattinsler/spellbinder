@@ -147,6 +147,19 @@ Attribute targets are specified by putting the attribute name in brackets.
 This will set the `name` attribute to be the value of `model.get('foo')` and update the `name` attribute as the value of
 foo changes.
 
+#### CSS target
+
+CSS targets are used to set a specific style value on an element.
+
+Class targets are specified by putting the class name in brackets after the prefix `css:`.
+
+```html
+<div data-bind="[css:font-size] foo"></div>
+```
+
+This will set the `font-size` value in the style attribute to be the value of `model.get('foo')` and update that as the 
+value of foo changes.
+
 #### Class target
 
 Class targets are used to turn classes on and off and require expressions that evaluate to true or false.
@@ -260,8 +273,11 @@ Now I want to have a ticking clock on my page and format the time with [momentjs
 To specify multiple bindings on the same DOM element, just separate the binding expressions with a semi-colon.
 
 ```html
-<div data-bind="count ; [prop:disabled] count > 4"></div>
+<input type="checkbox" data-bind="[css:height] count -> (count * 10) + 'px' ; [prop:disabled] count -> count < 4">
 ```
+
+This example will set the height of the checkbox to the value of `model.get('count')` as it changes, and disable the 
+checkbox when the count is less than 4.
 
 ### `data-event` Attribute
 
