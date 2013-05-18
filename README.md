@@ -1,6 +1,37 @@
 # Spellbinder
 
-View only model/view binding for backbone.js
+View-only model/view binding for backbone.js
+
+Don't write this anymore:
+
+```javascript
+$(function() {
+  some_model.on('change:count', function() {
+    var count = some_model.get('count')
+      , $el = $('.some-selector');
+    
+    $el.html(count);
+    if (count > 100) {
+      $el.removeClass('low-value');
+      $el.addClass('high-value');
+    } else if (count < 50) {
+      $el.removeClass('high-value');
+      $el.addClass('low-value');
+    } else {
+      $el.removeClass('high-value');
+      $el.removeClass('low-value');
+    }
+  });
+});
+```
+
+Write this:
+
+```html
+<p data-bind="count; [class:high-value] count > 100; [class:low-value] count < 50"></p>
+```
+
+## Basic Idea
 
 The basic idea is to have as much of the binding and manipulation located in the markup rather than in the view code.
 This allows easier maintenance of the presentation code rather than having to search for that spot where jquery references
@@ -51,11 +82,11 @@ It will also bind the click event of the flickering element to the on_click meth
       }
     });
   
-    var model = new Backbone.Model({count: 0});
+    var model = new Backbone.Model({name: 'My Count test', count: 0});
     new CountView({el: $('#content'), model: model}).render();
     
     setInterval(function() {
-      model.set({name: 'My Count test', count: 1000 * Math.random()});
+      model.set({count: 1000 * Math.random()});
     }, 100);
   </script>
 </head>
