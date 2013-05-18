@@ -114,7 +114,7 @@ For example:
 <div data-bind="count"></div>
 
 <!-- target: name attribute, expression: count -> 'foo-' + count -->
-<div data-bind="[name] count -> 'foo-' + count</div>"></div>
+<div data-bind="[name] count -> 'foo-' + count"></div>
 
 ```
 
