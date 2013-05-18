@@ -132,13 +132,17 @@ For example:
 
 HTML targets are the default. If there is no target specified, it is assumed to be HTML.
 
-    data-bind="foo"
+```html
+<div data-bind="foo"></div>
+```
 
 #### Attribute target
 
 Attribute targets are specified by putting the attribute name in brackets.
 
-    data-bind="[name] foo"
+```html
+<div data-bind="[name] foo"></div>
+```
 
 This will set the `name` attribute to be the value of `model.get('foo')` and update the `name` attribute as the value of
 foo changes.
@@ -149,7 +153,9 @@ Class targets are used to turn classes on and off and require expressions that e
 
 Class targets are specified by putting the class name in brackets after the prefix `class:`.
 
-    data-bind="[class:show-name] foo -> foo === 'bar'"
+```html
+<div data-bind="[class:show-name] foo -> foo === 'bar'"></div>
+```
 
 This will add the `show-name` class to the current element when the value of `model.get('foo')` is equal to `bar` and will 
 remove the `show-name` class from the current element when that is no longer true.
@@ -160,7 +166,9 @@ Property targets are used to turn properties on and off and require expressions 
 
 Property targets are specified by putting the class name in brackets after the prefix `prop:`.
 
-    data-bind="[prop:disabled] foo -> foo > 3"
+```html
+<div data-bind="[prop:disabled] foo -> foo > 3"></div>
+```
 
 This will add the `disabled` property to the current element when the value of `model.get('foo')` is greater than 3 and will
 remove the `disabled` property from the current element when that is no longer true.
@@ -172,13 +180,15 @@ either for presentation or to create a true/false value for certain targets.
 
 The model attributes to bind to are a comma-separated list on the left side of the `->` symbol.
 
-    data-bind="foo, bar -> foo + ' - ' + bar"
+```html
+<div data-bind="foo, bar -> foo + ' - ' + bar"></div>
+```
 
 In this case, any time that the foo or bar attributes change on the current view's model, the following javascript method
 will be run:
 
-```
-function(foo, bar) {
+```javascript
+function(value, current_view, foo, bar) {
   return foo + ' - ' + bar;
 }
 ```
@@ -186,6 +196,64 @@ function(foo, bar) {
 There are other variables available to you within your binding expression, besides the current attributes. These are
 - `value` or `values` - the value or array of values of the bound attributes in the order specified
 - `current_view` - the view that this template is being rendered for
+
+#### Advanced Attribute Selectors
+
+Attribute names are assumed to be local to the `model` attribute of the parent view.
+
+However we can also target both sub-objects and objects at the `window` level.
+
+#### Sub-Object Selector
+
+Sub-objects can be seleted using the `.` and `:` notation. The `:` tells spellbinder to look for change events on the 
+property immediately following the colon, and the `.` tells spellbinder to traverse the object tree using that key.
+
+For instance:
+
+```html
+<div data-bind="scope.clowns:count"></div>
+```
+
+This says to look at the parent view's scope object, traverse to the clowns property, and treat that as a Backbone Model,
+binding to the `count` property. This is functionally the same as:
+
+```javascript
+Backbone.View.extend({
+  initialize: function() {
+    var _this = this;
+    this.scope.clowns.on('change:count', function() {
+      var count = _this.get('count');
+      this.$('.some-selector').html(count);
+    });
+  }
+});
+```
+
+#### Global Object Selector
+
+Sometimes you need to reference an application-wide model. In this case, we can use the `@` notation to make spellbinder
+look at window-level objects.
+
+For instance, let's say that I had a `clock` model at the window level that looked like this:
+
+```javascript
+window.clock = Backbone.Model.extend({
+  initialize: function() {
+    var _this = this;
+    
+    this.set({time: new Date()});
+    setInterval(function() {
+      _this.set({time: new Date()});
+    }, 1000);
+  }
+});
+```
+
+Now I want to have a ticking clock on my page and format the time with [momentjs](http://momentjs.com/).
+
+```html
+<p class="current-time" data-bind="@clock:time -> moment(time).format('h:mm:ss a')"></p>
+```
 
 ### Multiple bindings
 
