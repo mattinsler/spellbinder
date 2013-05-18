@@ -1,6 +1,6 @@
 # Spellbinder
 
-Real-time view model binding for backbone.js
+Real-time view/model binding for backbone.js
 
 Wouldn't you rather write this:
 
