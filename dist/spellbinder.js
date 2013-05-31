@@ -313,6 +313,7 @@
             return binding;
           })).flatten());
         }
+        this.replace_el = opts.replace === true;
       }
 
       Binder.prototype.destroy = function() {
@@ -356,10 +357,17 @@
       };
 
       Binder.prototype.render_template = function() {
+        var rendered;
         if (this.view.template != null) {
-          return this.view.$el.html(this.view.template({
+          rendered = $(this.view.template({
             model: this.view.model
           }));
+          if (this.replace_el) {
+            this.view.$el.replaceWith(rendered);
+            return this.view.setElement(rendered);
+          } else {
+            return this.view.$el.html(rendered);
+          }
         }
       };
 
@@ -454,6 +462,6 @@
       }
     };
     return exports.Spellbinder = Binder;
-  })(window);
+  })((typeof module !== "undefined" && module !== null ? module.exports : void 0) || window);
 
 }).call(this);

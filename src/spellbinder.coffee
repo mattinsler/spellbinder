@@ -203,6 +203,8 @@
             binding
           ).flatten()...
         )
+      
+      @replace_el = opts.replace is true
 
     destroy: ->
       @_destroy?.apply(@view, arguments)
@@ -224,7 +226,12 @@
 
     render_template: ->
       if @view.template?
-        @view.$el.html(@view.template(model: @view.model))
+        rendered = $(@view.template(model: @view.model))
+        if @replace_el
+          @view.$el.replaceWith(rendered)
+          @view.setElement(rendered)
+        else
+          @view.$el.html(rendered)
     
     render_data_event: ($el) ->
       $el.find('[data-event]').each (idx, el) =>
@@ -282,4 +289,4 @@
   }
   
   exports.Spellbinder = Binder
-)(window)
+)(module?.exports or window)
