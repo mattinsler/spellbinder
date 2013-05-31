@@ -17,16 +17,8 @@ $(function() {
       , $el = $('.some-selector');
     
     $el.html(count);
-    if (count > 100) {
-      $el.removeClass('low-value');
-      $el.addClass('high-value');
-    } else if (count < 50) {
-      $el.removeClass('high-value');
-      $el.addClass('low-value');
-    } else {
-      $el.removeClass('high-value');
-      $el.removeClass('low-value');
-    }
+    $el.toggleClass('high-value', count > 100);
+    $el.toggleClass('low-value', count < 50);
   });
 });
 ```
@@ -122,7 +114,7 @@ For example:
 <div data-bind="count"></div>
 
 <!-- target: name attribute, expression: count -> 'foo-' + count -->
-<div data-bind="[name] count -> 'foo-' + count</div>"></div>
+<div data-bind="[name] count -> 'foo-' + count"></div>
 
 ```
 
