@@ -276,7 +276,7 @@
       obj.off('change', @on_change, @)
 
     on_change: (src, opts) ->
-      changes = _(opts.changes or src.changes).keys()
+      changes = _(opts.changes or src.changes or src.changed).keys()
       bindings = @bindings.filter (b) -> b.is_changed(src, changes)
       return if bindings.length is 0
 

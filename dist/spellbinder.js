@@ -436,7 +436,7 @@
       },
       on_change: function(src, opts) {
         var b, bindings, changes, new_values, old_values, _base, _base1, _i, _len;
-        changes = _(opts.changes || src.changes).keys();
+        changes = _(opts.changes || src.changes || src.changed).keys();
         bindings = this.bindings.filter(function(b) {
           return b.is_changed(src, changes);
         });
