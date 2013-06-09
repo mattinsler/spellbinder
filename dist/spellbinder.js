@@ -347,9 +347,13 @@
       };
 
       Binder.prototype.capture_data_bind_bindings = function($el) {
-        var new_bindings, _ref,
+        var els, new_bindings, _ref,
           _this = this;
-        new_bindings = _($el.find('[data-bind]').toArray().map(function(el) {
+        els = $el.find('[data-bind]').toArray();
+        if ($el.is('[data-bind]')) {
+          els.push($el[0]);
+        }
+        new_bindings = _(els.map(function(el) {
           return Binding.parse_element(el, _this.view);
         })).flatten();
         (_ref = this.bindings).push.apply(_ref, new_bindings);
@@ -372,8 +376,13 @@
       };
 
       Binder.prototype.render_data_event = function($el) {
-        var _this = this;
-        return $el.find('[data-event]').each(function(idx, el) {
+        var els,
+          _this = this;
+        els = $el.find('[data-event]').toArray();
+        if ($el.is('[data-event]')) {
+          els.push($el[0]);
+        }
+        return els.forEach(function(el) {
           var callback, create_callback, event, event_descriptor, method, _i, _len, _ref, _ref1, _results;
           _ref = $(el).data('event').split(';');
           _results = [];

@@ -218,7 +218,9 @@
       b.bind(@, @view) for b in bindings
 
     capture_data_bind_bindings: ($el) ->
-      new_bindings = _($el.find('[data-bind]').toArray().map(
+      els = $el.find('[data-bind]').toArray()
+      els.push($el[0]) if $el.is('[data-bind]')
+      new_bindings = _(els.map(
         (el) => Binding.parse_element(el, @view)
       )).flatten()
       @bindings.push(new_bindings...)
@@ -234,7 +236,10 @@
           @view.$el.html(rendered)
     
     render_data_event: ($el) ->
-      $el.find('[data-event]').each (idx, el) =>
+      els = $el.find('[data-event]').toArray()
+      els.push($el[0]) if $el.is('[data-event]')
+      
+      els.forEach (el) =>
         for event_descriptor in $(el).data('event').split(';')
           [event, method] = event_descriptor.trim().split(':')
           event = event.trim()
